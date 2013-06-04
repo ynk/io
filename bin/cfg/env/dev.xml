@@ -1,0 +1,79 @@
+<data>
+	<debug>true</debug>
+	
+	<database>
+		<serv>localhost</serv>
+		<user>root</user>
+		<pass></pass>
+		<name>test</name>
+	</database>
+	
+	<cachemanifest>
+		<cache>
+			<element>assets/</element>
+		</cache>
+		
+		<network>*</network>
+	</cachemanifest>
+	
+	<application>
+		<states app="states" default="splashscreen">
+
+			<!-- ExternalController compliant xml -->
+			<state>
+				<module>SplashScreen</module>
+				<slug>/splashscreen</slug>
+				<title></title>
+				<keywords></keywords>
+			</state>
+			
+			<state>
+				<module>Menu</module>
+				<slug>/menu</slug>
+				<title></title>
+				<keywords></keywords>
+			</state>
+			
+			<state>
+				<module>Assets</module>
+				<slug>/tweny</slug>
+				<title></title>
+				<keywords></keywords>
+			</state>
+			
+			<!-- RoutingController compliant xml -->
+			<state>
+				<module>SplashScreen</module>
+				<pattern>/</pattern>
+				<title></title>
+				<keywords></keywords>
+			</state>
+			
+			<state>
+				<module>Menu</module>
+				<pattern>/menu/{var1}/{var2}/{var3}</pattern>
+				
+				<constraints>
+					<var1>@regex</var1>
+					<var2>#delegatefunction</var2>
+					<var3>OPTIONAL</var3>
+				</constraints>
+
+				<title></title>
+				<keywords></keywords>
+			</state>
+		</states>
+
+		<transitions app="transitions" default="Slave">
+			<transition from="menu" to="*">
+				<name>OverlapOut</name>
+				
+				<parameters>
+					<duration>2</duration>
+				</parameters>
+				
+			</transition>
+			<transition from="*" to="menu">OverlapIn</transition>
+		</transitions>
+	</application>
+</data>

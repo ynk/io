@@ -1,8 +1,0 @@
-- idée :
-Passer la classe ma.ev3nts.Listener en Daemon pour le static get et uniformisation (utile pour resize et enterframe dans les behaviors)
-
-- behaviors :
-Le prochain chantier
-
-- forms :
-remplacer optionnal par mandatory et inverser le sens

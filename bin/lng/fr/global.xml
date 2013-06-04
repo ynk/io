@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<fr>
+	<main>
+		<back>retour</back>
+	</main>
+
+	<states>
+		<pages>rubriquage</pages>
+		<popup>pop-ups</popup>
+		<layout>présentations</layout>
+		<draw>dessin</draw>
+		<loading>chargements</loading>
+		<helpers>aides</helpers>
+		<transitions>transitions</transitions>
+	</states>
+	
+	<splashscreen>
+		<title>Ma</title>
+		<version>1</version>
+	</splashscreen>
+	
+	<pages>
+		<content>http://localhost/playground/lng/pages/*.xml</content>
+	</pages>
+	
+</fr>

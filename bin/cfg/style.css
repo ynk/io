@@ -1,0 +1,27 @@
+.title
+{
+	font-family:"HelveticaNeueLT Std Med";
+	font-size:140p;
+	color:#000000;
+}
+
+.version
+{
+	font-family:"Helvetica Neue LT Std 45 Light";
+	font-size:60p;
+	color:#000000;
+}
+
+.pixel
+{
+	font-family:"07x5 Regular";
+	font-size:8p;
+	color:#ffffff;
+}
+
+.menubutton
+{
+	font-family:"Helvetica Neue LT Std 45 Light";
+	font-size:32p;
+	color:#404040;
+}

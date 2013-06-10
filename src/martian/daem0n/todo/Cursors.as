@@ -28,7 +28,7 @@ package martian.daem0n.todo
 	/**
 	 * Provides an easy way to use cursors as a singleton
 	 */	
-	public const Cursors:*;
+	public const Cursors:* = null;
 }
 
 /*

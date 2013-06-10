@@ -34,7 +34,7 @@ package martian.daem0n
 	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
 	
-	import martian.ev3nts.on;
+	import martian.ev3nts.helpers.on;
 	
 	import martian.daem0n.core.Daemon;
 

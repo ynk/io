@@ -34,7 +34,7 @@ package martian.sta7es.controllers
 
 	import martian.daem0n.core.Daemon;
 	
-	import martian.ev3nts.on;
+	import martian.ev3nts.helpers.on;
 
 	import martian.m4gic.log;
 	import martian.m4gic.tools.objectize;
@@ -274,6 +274,12 @@ package martian.sta7es.controllers
 			}
 			
 			return new Statement(module, { slug:current, module_parameters:parameters, transition:transition, transition_parameters:configuration });
+		}
+
+		public function validate(url:String):Boolean
+		{
+			//TODO implement function
+			return true;
 		}
 		
 		public function dispose():void 

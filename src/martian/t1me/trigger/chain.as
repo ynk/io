@@ -1,5 +1,6 @@
 package martian.t1me.trigger 
 {
+	import martian.t1me.interfaces.Stackable;
 	import martian.t1me.meta.Sequence;
 	
 	public function chain(...functions):Stackable 

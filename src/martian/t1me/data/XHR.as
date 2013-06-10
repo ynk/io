@@ -30,7 +30,8 @@ package martian.t1me.data
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
-	import martian.ev3nts.on;
+
+	import martian.ev3nts.helpers.on;
 
 	import martian.t1me.misc.Time;
 	
@@ -362,7 +363,7 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.utils.ByteArray;
 
-import martian.ev3nts.on;
+import martian.ev3nts.helpers.on;
 
 internal class Data extends EventDispatcher
 {

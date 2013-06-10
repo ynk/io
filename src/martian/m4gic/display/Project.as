@@ -114,6 +114,8 @@ package martian.m4gic.display
 		}
 		
 		protected function initialize():void { throw new Error('You need to overwrite initialize method'); }
+		protected function dispose():void {}
+
 		public function resize():void {}
 		
 		private function onadded():void { stage.addEventListener(Event.RESIZE, onresize); }

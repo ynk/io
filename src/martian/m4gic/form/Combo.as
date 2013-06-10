@@ -25,7 +25,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 package martian.m4gic.form
 {
-	import com.greensock.TweenMax;
 
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -156,7 +155,8 @@ package martian.m4gic.form
 		{
 			var d:Number = e != null ? .2 : 0;
 			
-			TweenMax.allTo([dropdown_bg, dropdown_container], d, { autoAlpha:1 }, d >> 1);
+			dropdown_bg.alpha = dropdown_container.alpha = 1;
+			dropdown_bg.visible = dropdown_container.visible = true;
 
 			if (dropdown_mask) { dropdown_container.addEventListener(Event.ENTER_FRAME, scroll); }
 			if (e) { dropdown_bg.stage.addEventListener(MouseEvent.MOUSE_UP, close); }
@@ -165,9 +165,10 @@ package martian.m4gic.form
 		public function close(e:MouseEvent = null):void
 		{
 			var d:Number = e != null ? .2 : 0;
-			
-			TweenMax.allTo([dropdown_container, dropdown_bg], d, { autoAlpha:0 }, d >> 1);
-			
+
+			dropdown_bg.alpha = dropdown_container.alpha = 0;
+			dropdown_bg.visible = dropdown_container.visible = false;
+
 			if (dropdown_mask) { dropdown_container.removeEventListener(Event.ENTER_FRAME, scroll); }
 			if (e) { dropdown_bg.stage.removeEventListener(MouseEvent.MOUSE_UP, close); }
 		}

@@ -1,4 +1,4 @@
 package martian
 {
-	public function version():String { return '1.0'; }
+	public function version():String { return '2.0'; }
 }

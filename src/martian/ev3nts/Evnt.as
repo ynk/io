@@ -30,6 +30,7 @@ package martian.ev3nts
 	public dynamic class Evnt extends Event
 	{
 		public var keys:Array = new Array();
+		public var data:Object = null;
 		
 		public function Evnt(type:String, data:Object = null, dump:Boolean = true, bubbles:Boolean = true, cancelable:Boolean = true)
 		{

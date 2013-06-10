@@ -41,21 +41,43 @@ package martian.sta7es.controllers
 			this.module_package = module_package;
 			this.transition_package = transition_package;
 		}
-		
-		public function handle(url:String, extra:Object = null):Statement 
+
+		private function solve(url:String):Object
 		{
-			var module:Class, transition:Class, path:Array = url.split('/');
-			
-			try { module = getDefinitionByName(module_package + "." + path[0]) as Class; }
-			catch (e:Error) { return null; }
-			
+			var module:Class,
+				transition:Class,
+				path:Array = url.split('/');
+
+			module = getDefinitionByName(module_package + "." + path[0]) as Class;
+
 			if (path[1])
 			{
 				try { transition = getDefinitionByName(transition_package + "." + path[1]) as Class; }
 				catch (e:Error) { transition = Slave; }
 			}
-			
+
+			return { module:module, transition:transition }
+		}
+
+		public function handle(url:String, extra:Object = null):Statement 
+		{
+			var definition:Object;
+
+			try { definition = solve(url); }
+			catch (e:Error) { return null; }
+
+			var module:Class = definition.module,
+				transition:Class = definition.transition;
+
 			return new Statement(module, { module_parameters:extra, transition:transition });
+		}
+
+		public function validate(url:String):Boolean
+		{
+			try { solve(url); }
+			catch(e:Error) { return false; }
+
+			return true;
 		}
 	}
 }

@@ -31,7 +31,7 @@ package martian.ta6
 	import flash.net.*;
 	import flash.utils.*;
 
-	import martian.ev3nts.on;
+	import martian.ev3nts.helpers.on;
 	import martian.m4gic.log;
 	import martian.t1me.data.Load;
 	

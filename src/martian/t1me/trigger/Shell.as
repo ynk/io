@@ -29,7 +29,7 @@ package martian.t1me.trigger
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	
-	import martian.ev3nts.on;
+	import martian.ev3nts.helpers.on;
 	
 	import martian.t1me.interfaces.Stackable;
 	import martian.t1me.misc.Time;

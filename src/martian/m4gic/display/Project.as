@@ -25,22 +25,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 package martian.m4gic.display
 {
-	import flash.display.MovieClip;
-	import flash.display.Stage;
-	import flash.display.StageAlign;
-	import flash.display.StageQuality;
-	import flash.display.StageScaleMode;
-	
-	import flash.events.Event;
-	
-	import flash.geom.Rectangle;
 
+	import flash.display.*;
+	import flash.events.Event;
+	import flash.geom.Rectangle;
 	import flash.text.Font;
 	
 	import martian.ev3nts.helpers.on;
-	
 	import martian.m4gic.log;
-	
 	import martian.m4gic.data.Ini;
 	
 	public class Project extends MovieClip
@@ -55,6 +47,7 @@ package martian.m4gic.display
 		static private const SCALE:Array = [StageScaleMode.NO_SCALE, StageScaleMode.EXACT_FIT, StageScaleMode.NO_BORDER, StageScaleMode.SHOW_ALL];
 		
 		static public var STAGE:Stage;
+		static public var INFOS:LoaderInfo;
 		
 		static public function get fonts():String
 		{
@@ -85,6 +78,7 @@ package martian.m4gic.display
 		{
 			stop();
 			STAGE = stage;
+			INFOS = stage.loaderInfo;
 			
 			var ini:Ini = new Ini(config);
 				stage.quality = QUALITY[ini.integer('quality', 2)];
@@ -114,8 +108,8 @@ package martian.m4gic.display
 		}
 		
 		protected function initialize():void { throw new Error('You need to overwrite initialize method'); }
-		protected function dispose():void {}
 
+		public function dispose():void {}
 		public function resize():void {}
 		
 		private function onadded():void { stage.addEventListener(Event.RESIZE, onresize); }

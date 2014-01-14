@@ -23,7 +23,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package martian.m4gic.data 
+package martian.m4gic.data
 {
 	import flash.utils.getQualifiedClassName;
 	import martian.m4gic.tools.objectize;
@@ -34,10 +34,10 @@ package martian.m4gic.data
 		{
 			if (match is Class) { return (object is match); }
 			else if (match is String) { return getQualifiedClassName(object) == match; }
-			
+
 			return false;
 		}
-		
+
 		static public function check(object:Object, property:String, type:Class = null):Boolean
 		{
 			if (object && property in object)
@@ -47,27 +47,37 @@ package martian.m4gic.data
 			}
 			return false;
 		}
-		
+
+		static public function like(object:Object, pattern:Object, default_value:* = null):*
+		{
+			var target:Object = object;
+				if (!target) { return default_value; }
+
+			for (var property:String in pattern) { if (!check(target, property, pattern[property])) { return default_value; } }
+
+			return target;
+		}
+
 		static public function extract(object:Object, property:String, type:Class = null, default_value:* = null):*
 		{
 			if (!object) { return default_value; }
-			
+
 			if (object[property] is XML && type === Object) { return objectize(object[property] as XML, true); }
 			else if (check(object, property, type)) { return object[property]; }
 			else if (object[property] is Class)
 			{
 				var foo:*;
-				
+
 				try { foo = new object[property](); }
 				catch (e:Error) { return default_value; }
-				
+
 				if (foo is type) { return object[property]; }
 			}
-			
+
 			if (default_value is Error) { throw default_value; }
 			else { return default_value; }
 		}
-		
+
 		public var config:Object;
 			public function get keys():Array
 			{
@@ -75,9 +85,9 @@ package martian.m4gic.data
 				for(var p:String in config) { k.push(p); }
 				return k;
 			}
-		
+
 		public function Ini(config:Object) { this.config = config; }
-		
+
 		public function star(property:String, default_value:* = null):* { return extract(config, property, null, default_value); }
 		public function numeric(property:String, default_value:* = 0):* { return extract(config, property, Number, default_value) as Number; }
 		public function unsigned(property:String, default_value:* = 0):uint { return extract(config, property, uint, default_value) as uint; }
@@ -93,23 +103,21 @@ package martian.m4gic.data
 		public function enum(property:String, values:Array, default_value:* = null):*
 		{
 			if (!exists(property)) { return default_value; }
-			
+
 			var data:* = extract(config, property, null, null);
 			for each(var value:* in values) { if (value == data) { return data; } }
-			
+
 			return default_value;
 		}
-		
+
 		public function like(property:String, pattern:Object, default_value:* = null):*
 		{
 			var target:Object = extract(config, property, Object);
 				if (!target) { return default_value; }
-				
-			for (property in pattern) { if (!check(target, property, pattern[property])) { return default_value; } }
-			
-			return target;
+
+			return Ini.like(target, pattern, default_value);
 		}
-		
+
 		public function dispose():void { config = null; }
 	}
 }

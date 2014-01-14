@@ -23,7 +23,7 @@ Copyright (c) 2010 julien barbay <barbay.julien@gmail.com>
  OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package martian.m4gic.display 
+package martian.m4gic.display
 {
 	import flash.display.BitmapData;
 	import flash.display.Sprite;

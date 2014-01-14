@@ -22,72 +22,72 @@ Copyright (c) 2010 julien barbay <barbay.julien@gmail.com>
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  OTHER DEALINGS IN THE SOFTWARE.
 */
- 
+
 package martian.daem0n
 {
 	import flash.display.*;
-	
+
 	import flash.events.*;
 
 	import flash.utils.Dictionary;
-	
+
 	import martian.daem0n.core.Daemon;
-	
+
 	public class Keyboard extends Daemon
 	{
 		public var DEBUG:Boolean = false;
-		
+
 		private var table:Dictionary;
 		private var UID:uint = 0;
 		private var binds:Dictionary;
-		
+
 		public function Keyboard() { name = "Keyboard"; }
-		
+
 		public function hook(stage:Stage, active:Boolean = true):void
 		{
 			if (!$hook(stage)) { return; }
 			if (!table) { table = Keys.get(); }
-			
+
 			binds = new Dictionary();
-			
+
 			if (active) { activate(); }
 		}
-		
+
 		public function kill():void
 		{
 			if (!$kill()) { return; }
-			
+
 			binds = null;
 		}
-		
+
 		public function activate():void
 		{
 			if (!$activate()) { return; }
-			
+
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 		}
-		
+
 		public function deactivate():void
 		{
 			if (!$deactivate()) { return; }
-			
+
 			stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 			stage.removeEventListener(KeyboardEvent.KEY_UP, keyUp);
 		}
-		
-		private function keyDown(e:KeyboardEvent):void 
+
+		private function keyDown(e:KeyboardEvent):void
 		{
 			if (table[e.keyCode] == undefined) { trace(e.keyCode); return; }
-			
+
 			if (!table[e.keyCode].pressed)
 			{
 				table[e.keyCode].pressed = true;
 				for each(var bind:Bind in binds) { bind.push(table[e.keyCode].label); }
 			}
 		}
-		
-		private function keyUp(e:KeyboardEvent):void 
+
+		private function keyUp(e:KeyboardEvent):void
 		{
 			if (table[e.keyCode] == undefined) { trace(e.keyCode); return; }
 
@@ -97,13 +97,13 @@ package martian.daem0n
 				for each(var bind:Bind in binds) { bind.splice(table[e.keyCode].label); }
 			}
 		}
-		
+
 		public function press(key:String):Boolean
 		{
 			for each(var object:Object in table) { if (object.label == key) { return object.pressed; } }
 			return undefined;
 		}
-		
+
 		public function bind(...combo):Function
 		{
 			return function(callback:Function, time:int = 0):uint
@@ -112,7 +112,9 @@ package martian.daem0n
 				return UID++;
 			}
 		}
-		
+
+
+
 		public function sequence(...combo):Function
 		{
 			return function(callback:Function, time:int = 0):uint
@@ -121,7 +123,7 @@ package martian.daem0n
 				return UID++;
 			}
 		}
-		
+
 		public function konami():Function
 		{
 			return function(callback:Function, time:int = 0):uint
@@ -130,17 +132,17 @@ package martian.daem0n
 				return UID++;
 			}
 		}
-		
+
 		public function unlink(callback:Function, id:uint = -1):void
 		{
 			if (id < 0)
 			{
 				for (var uid:* in binds)
 				{ if (binds[uid].callback == callback) { binds[uid]; } }
-				
+
 				return;
 			}
-			
+
 			delete binds[id];
 		}
 	}
@@ -157,40 +159,40 @@ internal class Bind
 {
 	static public const GROUP:int = 0;
 	static public const SEQUENCE:int = 1;
-	
+
 	public var	type:int = -1,
 				combo:Array,
 				callback:Function,
 				time:int;
-				
+
 	private var live:Array,
 				index:int,
 				timer:uint;
-	
+
 	public function Bind(type:int, combo:Array, callback:Function, time:int)
 	{
 		this.type = type;
 		this.combo = combo;
 		this.callback = callback;
 		this.time = time;
-		
+
 		live = new Array(combo.length);
 		index = 0;
-		
+
 		if (type == GROUP) { combo = combo.sort(); }
 	}
-	
+
 	public function push(key:String):void
 	{
 		if (type == GROUP)
 		{
 			live[index++] = key;
 			live = live.sort();
-			
+
 			validate();
 		}
 	}
-	
+
 	public function splice(key:String):void
 	{
 		if (type == GROUP)
@@ -204,21 +206,21 @@ internal class Bind
 				}
 			}
 		}
-		
+
 		if (type == SEQUENCE)
 		{
 			live[index++] = key;
 			validate();
 		}
 	}
-	
+
 	private function validate():void
 	{
 		var validation:Boolean = true;
-		
+
 		for (var j:int = 0; j < combo.length; j++)
 		{ if (combo[j] != live[j]) { validation = false; } }
-		
+
 		if (validation)
 		{
 			callback.call();
@@ -239,11 +241,11 @@ internal class Bind
 			}
 		}
 	}
-	
+
 	private function reset(triggered:Boolean = false):void
 	{
 		if (triggered) { trace("too long !"); }
-		
+
 		clearTimeout(timer);
 		live = new Array(combo.length);
 		index = 0;
@@ -257,26 +259,26 @@ internal class Keys
 						qwerty:Dictionary,
 						qwtoaz:Dictionary,
 						ready:Boolean = false;
-	
+
 	static public function get():Dictionary
 	{
 		if (!ready) { initialize(); }
-		
+
 		if (Capabilities.language == "fr") { return azerty; }
 		else { return qwerty; }
 	}
-	
+
 	static private function initialize():void
 	{
 		var j:int = 0,
 			numbers:Array,
 			lowercase:Array,
 			pad:Array;
-			
+
 		azerty = new Dictionary();
 		qwerty = new Dictionary();
 		qwtoaz = new Dictionary();
-		
+
 		azerty[8]	= qwerty[8]		= qwtoaz[8]		=	{ label:"backspace", 	pressed:false };
 		azerty[9]	= qwerty[9]		= qwtoaz[8]		=	{ label:"tab", 			pressed:false };
 		azerty[13]	= qwerty[13]	= qwtoaz[13]	=	{ label:"enter", 		pressed:false };
@@ -299,8 +301,8 @@ internal class Keys
 		azerty[46]	= qwerty[46]	= qwtoaz[46]	=	{ label:"del", 			pressed:false };
 
 		numbers  = String("0123456789").split("");
-		for (j = 0; j < numbers.length; j++) { azerty[48 + j] = qwerty[48 + j] = qwtoaz[48 + j] = { label:numbers[j], pressed:false }; }		
-		
+		for (j = 0; j < numbers.length; j++) { azerty[48 + j] = qwerty[48 + j] = qwtoaz[48 + j] = { label:numbers[j], pressed:false }; }
+
 		lowercase = String("abcdefghijklmnopqrstuvwxyz").split("");
 		for (j = 0; j < lowercase.length; j++) { azerty[65 + j] = qwerty[65 + j] = { label:lowercase[j], pressed:false }; }
 
@@ -310,15 +312,15 @@ internal class Keys
 		azerty[91]	= qwerty[91]	= qwtoaz[91]	= { label:"winleft",	pressed:false }; //PC ONLY
 		azerty[92]	= qwerty[92]	= qwtoaz[92]	= { label:"winright",	pressed:false }; //PC ONLY
 		azerty[93]	= qwerty[93]	= qwtoaz[93]	= { label:"context",	pressed:false }; //PC ONLY
-		
+
 		pad = String("0123456789*+ -,/").split("");
 		for (j = 0; j < pad.length; j++) { if (pad[j] != " ") { qwtoaz[96 + j] = { label:pad[j], pressed:false }; } }
-		
+
 		for (j = 0; j < 15; j++) { azerty[112 + j] = qwerty[112 + j] = qwtoaz[112 + j] = { label:"f" + (j + 1), pressed:false }; }
-		
+
 		azerty[144]	= qwerty[144] 	= qwerty[144] 	=	{ label:"num", 		pressed:false };
 		azerty[145]	= qwerty[145] 	= qwerty[144] 	=	{ label:"scroll", 	pressed:false };
-		
+
 		azerty[186]	= { label:"$",			pressed:false };
 		azerty[187]	= { label:"+",			pressed:false };
 		azerty[188]	= { label:",",			pressed:false };
@@ -332,12 +334,12 @@ internal class Keys
 		azerty[222]	= { label:"²",			pressed:false };
 		azerty[223]	= { label:"!",			pressed:false };
 		azerty[226]	= { label:"<",			pressed:false };
-		
+
 		qwerty[186]	= { label:"$",			pressed:false };
 		qwerty[187]	= { label:"+",			pressed:false };
 		qwerty[188]	= { label:",",			pressed:false };
 		qwerty[189]	= { label:"-", 			pressed:false };
-		qwerty[190]	= { label:";",			pressed:false }; 
+		qwerty[190]	= { label:";",			pressed:false };
 		qwerty[191]	= { label:":", 			pressed:false };
 		qwerty[192]	= { label:"ù", 			pressed:false };
 		qwerty[219]	= { label:"[",			pressed:false };
@@ -346,7 +348,7 @@ internal class Keys
 		qwerty[222]	= { label:"²",			pressed:false };
 		qwerty[223]	= { label:"!",			pressed:false };
 		qwerty[226]	= { label:"<",			pressed:false };
-		
+
 		qwtoaz[186]	= { label:"m",			pressed:false };
 		qwtoaz[187]	= { label:"-",			pressed:false };
 		qwtoaz[188]	= { label:";",			pressed:false };
@@ -359,7 +361,7 @@ internal class Keys
 		qwtoaz[221]	= { label:"$",			pressed:false };
 		qwtoaz[222]	= { label:"ù",			pressed:false };
 		qwtoaz[223]	= { label:"!",			pressed:false };
-		
+
 		ready = true;
 	}
 }

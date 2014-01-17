@@ -33,6 +33,8 @@ package martian.m4gic.tools
 
 	public class Geoms
 	{
+		static public const POINT:Point = new Point();
+		
 		public function Geoms() {}
 
 		/**

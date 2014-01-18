@@ -44,7 +44,7 @@ package martian.m4gic.display
 			buffer.fillRect(buffer.rect, 0);
 			buffer.draw(src);
 
-			graphics.beginBitmapFill(buffer, null, false, true);
+			graphics.beginBitmapFill(buffer, null, false, false);
 			graphics.drawRect(0, 0, buffer.width, buffer.height);
 			graphics.endFill();
 		}
